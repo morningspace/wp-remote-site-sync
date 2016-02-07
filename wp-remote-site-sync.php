@@ -1,17 +1,15 @@
 <?php
  
-/*
-Plugin Name: WP Remote Site Sync
-Plugin URI: https://github.com/morningspace/wp-remote-site-sync
-Description: 
-Version: 1.0.0
-Author: MorningSpace
-Author URI: http://morningspace.51.net/weblog
+/**
+ Plugin Name: WP Remote Site Sync
+ Plugin URI: https://github.com/morningspace/wp-remote-site-sync
+ Description: 
+ Version: 1.0.0
+ Author: MorningSpace
+ Author URI: http://morningspace.51.net/weblog
+ Copyright 2016  WP Remote Site Sync  (email : morningspace@yahoo.com)
 */
 
-/*  Copyright 2016  WP Remote Site Sync  (email : morningspace@yahoo.com) */
-
-// init plugin
 wprss_init();
 
 /**
@@ -62,7 +60,7 @@ function wprss_metabox_callback( $post ) {
                 $h = $options[$key]["wprss_host"];
                 $u = $options[$key]["wprss_username"];
                 $p = $options[$key]["wprss_pwd"];
-                $meta_key = 'post_at_blogaddr'.$key;
+                $meta_key = 'post_at_'.$h;
                 $client = new IXR_CLIENT($h.'/xmlrpc.php');
                 if ( $post->ID ) {
                     $post_remote_id = get_post_meta($post->ID, $meta_key, true);
@@ -121,7 +119,7 @@ function wprss_save_meta_box_data( $post_id ) {
         }
     }
 
-    /* OK, it's safe for us to save the data now. */
+    // OK, it's safe for us to save the data now.
     $options = get_option('wprss_options');
     if ( is_array($options) && count($options) > 0 ) {
         if ( is_object($post_id) ) {
@@ -157,7 +155,7 @@ function wprss_save_meta_box_data( $post_id ) {
                     $p = $options[$key]["wprss_pwd"];
 
                     $update_post = 0;
-                    $meta_key = 'post_at_blogaddr'.$key;
+                    $meta_key = 'post_at_'.$h;
                     $remote_post_id = get_post_meta($post_id, $meta_key, true);
                     $client = new IXR_CLIENT($h.'/xmlrpc.php');
                     if ( $remote_post_id != "" ) {
@@ -221,7 +219,7 @@ function wprss_add_meta_box_move() {
 }    
     
 /**
- * Function for init plugin
+ * Init plugin
  */
 function wprss_init(){
     add_action('admin_enqueue_scripts', 'wprss_admin_enqueue' );
@@ -242,15 +240,14 @@ function wprss_admin_enqueue() {
 }
 
 /**
- * Function for register settings
+ * Register settings
  */
 function wprss_register_mysettings() {
     register_setting( 'wprss-settings-group', 'wprss_options' );
-    register_setting( 'wprss-settings-group', 'wprss_email' );
 }
 
 /**
- * Function for view settings page 
+ * View settings page 
  */
 function wprss_settings_page() {
 ?>

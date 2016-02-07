@@ -53,18 +53,6 @@ function wprssValidateForm(n) {
 			alert("Please fill all fields");
 			$j('#overlay').remove();
 			rs = false;
-		} else {
-			for ( var i = 0; i < n + 1; i ++ ) {
-				var h = document.getElementById("wprss_host_" + i).value;
-				if ( h != "" ) {
-					rs = testSite(i);
-				} else {
-					alert("Error: not valid host");
-					$j('#overlay').remove();
-					rs = false;
-					break;
-				}
-			} 
 		}
 	}
 	if ( rs == true ) {
